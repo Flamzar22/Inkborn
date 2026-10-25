@@ -1,2 +1,2 @@
 # Inkborn
-Proyecto de Proceso de creacion de videojuegos - Prototipo
+Proyecto de Proceso creador de videojuegos - Prototipo
