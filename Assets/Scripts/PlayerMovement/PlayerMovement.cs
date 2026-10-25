@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     private float moveSpeed;
     public float walkSpeed;
-    public float sprintSpeed;
     public float climbSpeed;
     public float dashSpeed;
     public float dashSpeedChangeFactor;
@@ -19,15 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public float airMultiplier;
     bool readyToJump = true;
 
-    [Header("Crouching")]
-    public float crouchSpeed;
-    public float crouchYScale;
-    private float startYScale;
-
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode sprintKey = KeyCode.LeftShift;
-    public KeyCode crouchKey = KeyCode.LeftControl;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -56,8 +48,6 @@ public class PlayerMovement : MonoBehaviour
     {
         freeze,
         walking,
-        sprinting,
-        crouching,
         climbing,
         dashing,
         air
@@ -70,8 +60,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
-        startYScale = transform.localScale.y;
     }
     void Update()
     {
@@ -82,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
 
-        if (state == MovementState.walking || state == MovementState.sprinting || state == MovementState.crouching)
+        if (state == MovementState.walking)
         {
             rb.linearDamping = groundDrag;
         }
@@ -105,15 +93,6 @@ public class PlayerMovement : MonoBehaviour
             readyToJump = false;
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
-        }
-        if (Input.GetKeyDown(crouchKey))
-        {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
-            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
-        }
-        if (Input.GetKeyUp(crouchKey))
-        {
-            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
         }
     }
     private void MovePlayer()
@@ -195,16 +174,6 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.climbing;
             desiredMoveSpeed = climbSpeed;
         }
-        else if (Input.GetKey(crouchKey) && grounded)
-        {
-            state = MovementState.crouching;
-            desiredMoveSpeed = crouchSpeed;
-        }
-        else if (grounded && Input.GetKey(sprintKey))
-        {
-            state = MovementState.sprinting;
-            desiredMoveSpeed = sprintSpeed;
-        }
         else if (grounded)
         {
             state = MovementState.walking;
@@ -214,8 +183,7 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.air;
 
-            if (desiredMoveSpeed < sprintSpeed) { desiredMoveSpeed = walkSpeed; }
-            else { desiredMoveSpeed = sprintSpeed; }
+            desiredMoveSpeed = walkSpeed;
         }
 
         bool desiredMoveSpeedHasChanged = desiredMoveSpeed != lastDesiredMoveSpeed;
