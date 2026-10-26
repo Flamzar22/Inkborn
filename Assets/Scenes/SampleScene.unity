@@ -2104,7 +2104,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   walkSpeed: 7
-  sprintSpeed: 10
   climbSpeed: 3
   dashSpeed: 20
   dashSpeedChangeFactor: 50
@@ -2112,17 +2111,15 @@ MonoBehaviour:
   jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0.4
-  crouchSpeed: 3.5
-  crouchYScale: 0.5
   jumpKey: 32
-  sprintKey: 304
-  crouchKey: 306
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1024
   grounded: 0
   maxSlopeAngle: 40
+  slowFallGravity: 0.3
+  maxFallSpeed: 3
   climbingScript: {fileID: 1016604601}
   orientation: {fileID: 1620167965}
   state: 0

@@ -31,6 +31,10 @@ public class PlayerMovement : MonoBehaviour
     private RaycastHit slopeHit;
     private bool exitingSlope;
 
+    [Header("Slow Falling")]
+    public float slowFallGravity;
+    public float maxFallSpeed;
+
     [Header("References")]
     public Climbing climbingScript;
 
@@ -50,9 +54,11 @@ public class PlayerMovement : MonoBehaviour
         walking,
         climbing,
         dashing,
+        slowFalling,
         air
     }
 
+    private bool slowFalling;
     public bool dashing;
     public bool climbing;
     public bool freeze;
@@ -94,6 +100,8 @@ public class PlayerMovement : MonoBehaviour
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+
+        slowFalling = Input.GetKey(KeyCode.Space) && !grounded;
     }
     private void MovePlayer()
     {
@@ -118,7 +126,24 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
 
-        rb.useGravity = !OnSlope();
+        if (OnSlope())
+        {
+            rb.useGravity = false;
+        }
+        else
+        {
+            rb.useGravity = true;
+
+            if (slowFalling && rb.linearVelocity.y < 0f)
+            {
+                rb.AddForce(Physics.gravity * (slowFallGravity - 1f), ForceMode.Acceleration);
+
+                if (rb.linearVelocity.y < -maxFallSpeed)
+                {
+                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, -maxFallSpeed, rb.linearVelocity.z);
+                }
+            }
+        }
     }
     private void SpeedControl()
     {
@@ -162,6 +187,11 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.freeze;
             desiredMoveSpeed = 0f;
             rb.linearVelocity = Vector3.zero;
+        }
+        else if (slowFalling)
+        {
+            state = MovementState.slowFalling;
+            desiredMoveSpeed = walkSpeed;
         }
         else if (dashing)
         {
@@ -209,7 +239,6 @@ public class PlayerMovement : MonoBehaviour
     private float speedChangeFactor;
     private IEnumerator SmoothlyLerpMoveSpeed()
     {
-        // smoothly lerp movementSpeed to desired value
         float time = 0;
         float difference = Mathf.Abs(desiredMoveSpeed - moveSpeed);
         float startValue = moveSpeed;
