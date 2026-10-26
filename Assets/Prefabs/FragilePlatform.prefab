@@ -371,3 +371,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FragilePlatform
   respawnTime: 1
+  despawnTime: 2

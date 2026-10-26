@@ -4,6 +4,7 @@ using UnityEngine;
 public class FragilePlatform : MonoBehaviour
 {
     public float respawnTime;
+    public float despawnTime;
     private MeshRenderer mr;
     private MeshCollider mc;
     private void Start()
@@ -21,7 +22,7 @@ public class FragilePlatform : MonoBehaviour
     private IEnumerator StartBreaking()
     {
         //Start animation
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(despawnTime);
         mc.enabled = false;
         mr.enabled = false;
         yield return new WaitForSeconds(respawnTime);

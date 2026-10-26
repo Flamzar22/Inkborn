@@ -4,22 +4,20 @@ using UnityEngine;
 public class JumpPlatform : MonoBehaviour
 {
     private bool isMoving = false;
-    public Rigidbody playerRb;
-    public PlayerMovement pm;
+    private Rigidbody playerRb;
+    private PlayerMovement pm;
     private Rigidbody rb;
     public float impulseForce;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
-    void Update()
-    {
-
-    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player") && !isMoving && collision.contacts[0].normal.y < -0.5f)
         {
+            playerRb = collision.gameObject.GetComponent<Rigidbody>();
+            pm = collision.gameObject.GetComponentInParent<PlayerMovement>();
             isMoving = true;
             StartCoroutine(MovePlatform());
         }

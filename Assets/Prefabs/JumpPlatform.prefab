@@ -371,8 +371,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b8442081708a540816a291b517de13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPlatform
-  playerRb: {fileID: 0}
-  pm: {fileID: 0}
+  playerRb: {fileID: 3207697070823699567, guid: aa8b3005baf69894faa72274bcfcd346, type: 3}
+  pm: {fileID: 2542195961544200993, guid: aa8b3005baf69894faa72274bcfcd346, type: 3}
   impulseForce: 20
 --- !u!54 &6696074162432842184
 Rigidbody:
