@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("References")]
     public Climbing climbingScript;
+    public GrapplinHook grapplingHook;
 
     public Transform orientation;
 
@@ -54,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
         walking,
         climbing,
         dashing,
+        grappling,
         slowFalling,
         air
     }
@@ -61,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     private bool slowFalling;
     public bool dashing;
     public bool climbing;
+    public bool grappling;
     public bool freeze;
     void Start()
     {
@@ -94,17 +97,18 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(jumpKey) && readyToJump && grounded)
+        if (Input.GetKeyDown(jumpKey) && readyToJump && grounded && !grappling)
         {
             readyToJump = false;
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
-        slowFalling = Input.GetKey(KeyCode.Space) && !grounded;
+        slowFalling = !grappling && Input.GetKey(KeyCode.Space) && !grounded;
     }
     private void MovePlayer()
     {
+        if (grappling) { return; }
         if (climbingScript.exitingWall) { return; }
         if (state == MovementState.dashing) { return; }
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
@@ -187,6 +191,11 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.freeze;
             desiredMoveSpeed = 0f;
             rb.linearVelocity = Vector3.zero;
+        }
+        else if (grappling)
+        {
+            state = MovementState.grappling;
+            desiredMoveSpeed = walkSpeed;
         }
         else if (slowFalling)
         {
