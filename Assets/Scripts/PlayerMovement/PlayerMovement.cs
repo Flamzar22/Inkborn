@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     public Climbing climbingScript;
     public GrapplinHook grapplingHook;
+    public WallJumping wallJumpScript;
 
     public Transform orientation;
 
@@ -62,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
         climbing,
         dashing,
         grappling,
+        wallJumping,
         slowFalling,
         air
     }
@@ -75,6 +77,11 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        if (wallJumpScript == null)
+        {
+            wallJumpScript = GetComponent<WallJumping>();
+        }
     }
     void Update()
     {
@@ -94,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
 
-        if (state == MovementState.walking)
+        if (grounded && !dashing && !grappling && !climbing)
         {
             rb.linearDamping = groundDrag;
         }
@@ -112,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(jumpKey) && readyToJump && coyoteTimeCounter > 0f && !grappling)
+        if (Input.GetKeyDown(jumpKey) && readyToJump && coyoteTimeCounter > 0f && !grappling && (wallJumpScript == null || !wallJumpScript.IsActive))
         {
             readyToJump = false;
             Jump();
@@ -125,6 +132,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grappling) { return; }
         if (climbingScript.exitingWall) { return; }
+        if (wallJumpScript != null && wallJumpScript.IsActive && !grounded){ return; }
         if (state == MovementState.dashing) { return; }
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         if (OnSlope() && !exitingSlope)
@@ -166,6 +174,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void SpeedControl()
     {
+        if (wallJumpScript != null && wallJumpScript.IsActive) { return; }
         if (OnSlope())
         {
             if (rb.linearVelocity.magnitude > moveSpeed)
@@ -206,6 +215,11 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.freeze;
             desiredMoveSpeed = 0f;
             rb.linearVelocity = Vector3.zero;
+        }
+        else if (wallJumpScript != null && wallJumpScript.IsActive)
+        {
+            state = MovementState.wallJumping;
+            desiredMoveSpeed = walkSpeed;
         }
         else if (grappling)
         {

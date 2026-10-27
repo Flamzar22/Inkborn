@@ -1,4 +1,5 @@
 using System;
+using Unity.Cinemachine;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -9,6 +10,10 @@ public class Climbing : MonoBehaviour
     public Rigidbody rb;
     public LayerMask whatIsWall;
     public PlayerMovement pm;
+
+    [Header("Climbing Camera")]
+    public CinemachineCamera climbingCamera;
+    public Transform climbingCameraTarget;
 
     [Header("Climbing")]
     public float climbSpeed;
@@ -58,10 +63,30 @@ public class Climbing : MonoBehaviour
     }
     void Update()
     {
+        if (pm != null && pm.wallJumpScript != null && pm.wallJumpScript.IsActive)
+        {
+            StopClimbing();
+            return;
+        }
+
         WallCheck();
         StateMachine();
 
         if (climbing && !exitingWall) { ClimbingMovement(); }
+    }
+    private void LateUpdate()
+    {
+        if (!climbing || !wallFront || climbingCameraTarget == null){ return; }
+
+        climbingCameraTarget.position = transform.position;
+
+        Vector3 forward = -frontWallHit.normal;
+        forward.y = 0f;
+
+        if (forward.sqrMagnitude > 0.001f)
+        {
+            climbingCameraTarget.rotation = Quaternion.LookRotation(forward, Vector3.up);
+        }
     }
     private void StateMachine()
     {
@@ -93,6 +118,11 @@ public class Climbing : MonoBehaviour
 
         lastWall = frontWallHit.transform;
         lastWallNormal = frontWallHit.normal;
+
+        if (climbingCamera != null)
+        {
+            climbingCamera.Priority = 30;
+        }
     }
     private void ClimbingMovement()
     {
@@ -102,6 +132,11 @@ public class Climbing : MonoBehaviour
     {
         climbing = false;
         pm.climbing = false;
+
+        if (climbingCamera != null)
+        {
+            climbingCamera.Priority = 10;
+        }
     }
     private void ClimbJump()
     {
