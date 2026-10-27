@@ -13,9 +13,15 @@ public class PlayerMovement : MonoBehaviour
 
     public float groundDrag;
 
+    [Header("Jump")]
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
+
+    [Header("Coyote Time")]
+    public float coyoteTime;
+    private float coyoteTimeCounter;
+
     bool readyToJump = true;
 
     [Header("Keybinds")]
@@ -76,6 +82,15 @@ public class PlayerMovement : MonoBehaviour
 
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
 
+        if (grounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
         MyInput();
         SpeedControl();
 
@@ -97,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(jumpKey) && readyToJump && grounded && !grappling)
+        if (Input.GetKeyDown(jumpKey) && readyToJump && coyoteTimeCounter > 0f && !grappling)
         {
             readyToJump = false;
             Jump();

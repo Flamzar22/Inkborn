@@ -412,6 +412,9 @@ MonoBehaviour:
   reelSpeed: 8
   swingAcceleration: 2
   angularDamping: 0.15
+  maxSwingAngle: 80
+  maxSwingSpeed: 2.5
+  bounceStrength: 0.5
   launchForwardBoost: 8
   launchUpBoost: 3
 --- !u!120 &4960614536793985989

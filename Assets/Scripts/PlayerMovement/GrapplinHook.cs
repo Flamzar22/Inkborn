@@ -18,6 +18,10 @@ public class GrapplinHook : MonoBehaviour
     [Header("Swing")]
     public float swingAcceleration;
     public float angularDamping;
+    public float maxSwingAngle;
+    public float maxSwingSpeed;
+    [Range(0f, 1f)]
+    public float bounceStrength;
 
     [Header("Launch")]
     public float launchForwardBoost;
@@ -153,14 +157,20 @@ public class GrapplinHook : MonoBehaviour
 
         float input = 0f;
 
+        Vector3 cameraForward = Vector3.ProjectOnPlane(orientation.forward, Vector3.up).normalized;
+
+        Vector3 swingDirection = GetTangent().normalized;
+
+        float directionDot = Vector3.Dot(cameraForward, swingDirection);
+
         if (Input.GetKey(KeyCode.W))
         {
-            input += 1f;
+            input += Mathf.Sign(directionDot);
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            input -= 1f;
+            input -= Mathf.Sign(directionDot);
         }
 
         currentRopeLength = Mathf.MoveTowards(currentRopeLength, ropeLength, reelSpeed * Time.fixedDeltaTime);
@@ -169,9 +179,32 @@ public class GrapplinHook : MonoBehaviour
 
         swingVelocity += (gravityAcceleration + input * swingAcceleration) * Time.fixedDeltaTime;
 
+        swingVelocity = Mathf.Clamp(swingVelocity, -maxSwingSpeed, maxSwingSpeed);
+
         swingVelocity *= Mathf.Clamp01(1f - angularDamping * Time.fixedDeltaTime);
 
         swingAngle += swingVelocity * Time.fixedDeltaTime;
+
+        float maxAngleRad = maxSwingAngle * Mathf.Deg2Rad;
+
+        if (swingAngle >= maxAngleRad)
+        {
+            swingAngle = maxAngleRad;
+
+            if (swingVelocity > 0f)
+            {
+                swingVelocity = -swingVelocity * bounceStrength;
+            }
+        }
+        else if (swingAngle <= -maxAngleRad)
+        {
+            swingAngle = -maxAngleRad;
+
+            if (swingVelocity < 0f)
+            {
+                swingVelocity = -swingVelocity * bounceStrength;
+            }
+        }
 
         Vector3 radialDirection = swingForward * Mathf.Sin(swingAngle) - Vector3.up * Mathf.Cos(swingAngle);
 
