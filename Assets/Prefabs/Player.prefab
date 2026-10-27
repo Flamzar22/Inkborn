@@ -251,6 +251,7 @@ GameObject:
   - component: {fileID: 4443593550675985157}
   - component: {fileID: 8066075969831129924}
   - component: {fileID: 4960614536793985989}
+  - component: {fileID: 4394236757762717423}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -273,6 +274,7 @@ Transform:
   m_Children:
   - {fileID: 1052793752749237994}
   - {fileID: 8593956709231362602}
+  - {fileID: 8705681866045837490}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &3207697070823699567
@@ -322,6 +324,7 @@ MonoBehaviour:
   jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0.4
+  coyoteTime: 0.15
   jumpKey: 32
   playerHeight: 2
   whatIsGround:
@@ -331,8 +334,9 @@ MonoBehaviour:
   maxSlopeAngle: 40
   slowFallGravity: 0.3
   maxFallSpeed: 3
-  climbingScript: {fileID: 4443593550675985157}
-  grapplingHook: {fileID: 8066075969831129924}
+  climbingScript: {fileID: 0}
+  grapplingHook: {fileID: 0}
+  wallJumpScript: {fileID: 0}
   orientation: {fileID: 8593956709231362602}
   state: 0
   dashing: 0
@@ -379,8 +383,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   pm: {fileID: 2542195961544200993}
+  climbingCamera: {fileID: 4648816705239698182}
+  climbingCameraTarget: {fileID: 2913212032489243006}
   climbSpeed: 7
-  maxClimbTime: 0.75
+  maxClimbTime: 100
   climbJumpUpForce: 14
   climbJumpBackForce: 12
   jumpKey: 32
@@ -527,3 +533,108 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &4394236757762717423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3767895172912495352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e09fb2e7bd75f4bbe21508e7156351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WallJumping
+  rb: {fileID: 0}
+  pm: {fileID: 0}
+  wallContactDistance: 0.5
+  jumpUpForce: 20
+  jumpSideForce: 10
+  lateralAcceleration: 15
+  maxLateralSpeed: 5
+--- !u!1001 &7082680330018893207
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5028393281565593930}
+    m_Modifications:
+    - target: {fileID: 949346793460703336, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_Name
+      value: ClimbingCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916976207876128037, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -26.22255
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916976207876128037, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916976207876128037, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 30.71442
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916976207876128037, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916976207876128037, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916976207876128037, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916976207876128037, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916976207876128037, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916976207876128037, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916976207876128037, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3365875730750341927, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_TagString
+      value: ClimbingCameraTarget
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610783192384737509, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+      propertyPath: m_TagString
+      value: ClimbingCamera
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+--- !u!4 &2913212032489243006 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5343365740299185385, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+  m_PrefabInstance: {fileID: 7082680330018893207}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4648816705239698182 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2506629318987933329, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+  m_PrefabInstance: {fileID: 7082680330018893207}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
+--- !u!4 &8705681866045837490 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1916976207876128037, guid: 424ddc087bdbb2d419c8f97e43d22c42, type: 3}
+  m_PrefabInstance: {fileID: 7082680330018893207}
+  m_PrefabAsset: {fileID: 0}

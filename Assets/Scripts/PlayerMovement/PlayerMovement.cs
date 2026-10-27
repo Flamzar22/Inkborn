@@ -45,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
     public Climbing climbingScript;
     public GrapplinHook grapplingHook;
     public WallJumping wallJumpScript;
-
     public Transform orientation;
 
     float horizontalInput;
@@ -76,12 +75,20 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-
+        
         if (wallJumpScript == null)
         {
             wallJumpScript = GetComponent<WallJumping>();
         }
+        if (climbingScript == null)
+        {
+            climbingScript = GetComponent<Climbing>();
+        }
+        if (grapplingHook == null)
+        {
+            grapplingHook = GetComponent<GrapplinHook>();
+        }
+        rb.freezeRotation = true;
     }
     void Update()
     {

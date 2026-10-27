@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - ThirdPersonCam
+  - ClimbingCamera
+  - ClimbingCameraTarget
   layers:
   - Default
   - TransparentFX

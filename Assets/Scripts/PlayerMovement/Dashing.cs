@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class Dashing : MonoBehaviour
@@ -29,6 +30,7 @@ public class Dashing : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovement>();
+        playerCam = GameObject.FindGameObjectWithTag("ThirdPersonCam").GetComponent<Transform>();
     }
     void Update()
     {
