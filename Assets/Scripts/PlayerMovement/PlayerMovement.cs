@@ -23,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
     public float coyoteTime;
     private float coyoteTimeCounter;
 
+    [Header("Jump Buffer")]
+    public float jumpBufferTime = 0.2f;
+    private float jumpBufferCounter;
+
     bool readyToJump = true;
 
     [Header("Keybinds")]
@@ -105,6 +109,14 @@ public class PlayerMovement : MonoBehaviour
         {
             coyoteTimeCounter -= Time.deltaTime;
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
 
         MyInput();
         SpeedControl();
@@ -131,9 +143,10 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(jumpKey) && readyToJump && coyoteTimeCounter > 0f && !grappling && (wallJumpScript == null || !wallJumpScript.IsActive))
+        if (jumpBufferCounter > 0f && readyToJump && coyoteTimeCounter > 0f && !grappling && (wallJumpScript == null || !wallJumpScript.IsActive))
         {
             readyToJump = false;
+            jumpBufferCounter = 0f;
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
         }
