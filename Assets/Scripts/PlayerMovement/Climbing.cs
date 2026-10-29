@@ -10,6 +10,7 @@ public class Climbing : MonoBehaviour
     public Rigidbody rb;
     public LayerMask whatIsWall;
     public PlayerMovement pm;
+    public Transform playerObj;
 
     [Header("Climbing Camera")]
     public CinemachineCamera climbingCamera;
@@ -17,8 +18,7 @@ public class Climbing : MonoBehaviour
 
     [Header("Climbing")]
     public float climbSpeed;
-    public float maxClimbTime;
-    private float climbTimer;
+    public float wallStrafeSpeed = 3f;
 
     private bool climbing;
 
@@ -29,6 +29,9 @@ public class Climbing : MonoBehaviour
     public KeyCode jumpKey = KeyCode.Space;
     public int climbJumps;
     private int climbJumpsLeft;
+
+    [Header("Wall Sliding")]
+    public float slideSpeed;
 
     [Header("Detection")]
     public float detectionLenght;
@@ -57,9 +60,23 @@ public class Climbing : MonoBehaviour
 
         if ((wallFront && newWall) || pm.grounded)
         {
-            climbTimer = maxClimbTime;
             climbJumpsLeft = climbJumps;
         }
+    }
+    private bool IsMovingTowardWall()
+    {
+        if (orientation == null || !wallFront) { return false; }
+
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+
+        Vector3 inputDirection = orientation.forward * vertical + orientation.right * horizontal;
+
+        if (inputDirection.sqrMagnitude < 0.01f) {return false; }
+
+        Vector3 directionTowardWall = -frontWallHit.normal;
+
+        return Vector3.Dot(inputDirection.normalized, directionTowardWall) > 0.1f;
     }
     void Update()
     {
@@ -72,7 +89,10 @@ public class Climbing : MonoBehaviour
         WallCheck();
         StateMachine();
 
-        if (climbing && !exitingWall) { ClimbingMovement(); }
+        if (climbing && !exitingWall)
+        {
+            ClimbingMovement();
+        }
     }
     private void LateUpdate()
     {
@@ -90,26 +110,40 @@ public class Climbing : MonoBehaviour
     }
     private void StateMachine()
     {
-        if (wallFront && Input.GetKey(KeyCode.W) && wallLookAngle < maxWallLookAngle && !exitingWall)
-        {
-            if (!climbing && climbTimer > 0) { StartClimbing(); }
+        bool validWall = wallFront && wallLookAngle < maxWallLookAngle;
 
-            if (climbTimer > 0) { climbTimer -= Time.deltaTime; }
-            if (climbTimer < 0) { StopClimbing(); }
+        if (!exitingWall && validWall)
+        {
+            if (!climbing && IsMovingTowardWall())
+            {
+                StartClimbing();
+            }
         }
         else if (exitingWall)
         {
-            if (climbing) { StopClimbing(); }
+            if (climbing)
+            {
+                StopClimbing();
+            }
 
-            if (exitWallTimer > 0) { exitWallTimer -= Time.deltaTime; }
-            if (exitWallTimer < 0) { exitingWall = false; }
+            if (exitWallTimer > 0f)
+            {
+                exitWallTimer -= Time.deltaTime;
+            }
+            else
+            {
+                exitingWall = false;
+            }
         }
         else
         {
             StopClimbing();
         }
 
-        if (wallFront && Input.GetKeyDown(jumpKey) && climbJumpsLeft > 0) { ClimbJump(); }
+        if (wallFront && climbing && Input.GetKeyDown(jumpKey) && climbJumpsLeft > 0)
+        {
+            ClimbJump();
+        }
     }
     private void StartClimbing()
     {
@@ -123,10 +157,41 @@ public class Climbing : MonoBehaviour
         {
             climbingCamera.Priority = 30;
         }
+
+        Vector3 lookDirection = -frontWallHit.normal;
+        lookDirection.y = 0f;
+
+        if (lookDirection.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(lookDirection.normalized, Vector3.up);
+
+            if (playerObj != null)
+            {
+                playerObj.rotation = targetRotation;
+            }
+            else
+            {
+                transform.rotation = targetRotation;
+            }
+        }
     }
     private void ClimbingMovement()
     {
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, climbSpeed, rb.linearVelocity.z);
+        float verticalInput = Input.GetAxisRaw("Vertical");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        Vector3 wallRight = Vector3.Cross(Vector3.up, frontWallHit.normal).normalized;
+
+        float verticalSpeed = verticalInput * climbSpeed;
+
+        if (Mathf.Abs(verticalInput) < 0.01f)
+        {
+            verticalSpeed = -slideSpeed;
+        }
+
+        Vector3 velocity = Vector3.up * verticalSpeed + wallRight * horizontalInput * wallStrafeSpeed;
+
+        rb.linearVelocity = velocity;
     }
     private void StopClimbing()
     {

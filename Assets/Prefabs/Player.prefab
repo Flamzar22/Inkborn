@@ -321,6 +321,7 @@ MonoBehaviour:
   dashSpeed: 20
   dashSpeedChangeFactor: 50
   groundDrag: 5
+  climbDrag: 0
   jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0.4
@@ -383,14 +384,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   pm: {fileID: 2542195961544200993}
+  playerObj: {fileID: 1052793752749237994}
   climbingCamera: {fileID: 4648816705239698182}
   climbingCameraTarget: {fileID: 2913212032489243006}
   climbSpeed: 7
-  maxClimbTime: 100
+  wallStrafeSpeed: 3
   climbJumpUpForce: 14
   climbJumpBackForce: 12
   jumpKey: 32
   climbJumps: 1
+  slideSpeed: 0
   detectionLenght: 0.7
   sphereCastRadius: 0.25
   maxWallLookAngle: 30

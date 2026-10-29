@@ -10,8 +10,9 @@ public class PlayerMovement : MonoBehaviour
     public float dashSpeed;
     public float dashSpeedChangeFactor;
 
-
+    [Header("Drag")]
     public float groundDrag;
+    public float climbDrag;
 
     [Header("Jump")]
     public float jumpForce;
@@ -111,6 +112,10 @@ public class PlayerMovement : MonoBehaviour
         if (grounded && !dashing && !grappling && !climbing)
         {
             rb.linearDamping = groundDrag;
+        }
+        else if(climbing)
+        {
+            rb.linearDamping = climbDrag;
         }
         else
         {
