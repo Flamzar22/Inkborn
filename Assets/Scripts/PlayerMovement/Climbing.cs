@@ -189,7 +189,7 @@ public class Climbing : MonoBehaviour
             verticalSpeed = -slideSpeed;
         }
 
-        Vector3 velocity = Vector3.up * verticalSpeed + wallRight * horizontalInput * wallStrafeSpeed;
+        Vector3 velocity = Vector3.up * verticalSpeed + wallRight * -horizontalInput * wallStrafeSpeed;
 
         rb.linearVelocity = velocity;
     }
