@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class Obstacle : MonoBehaviour
@@ -12,7 +13,10 @@ public class Obstacle : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Vector3 previousPosition = player.transform.position;
             player.transform.position = Checkpoint.actualCheckpoint;
+            Vector3 positionDelta = player.transform.position - previousPosition;
+            CinemachineCore.OnTargetObjectWarped(player.transform, positionDelta);
         }
     }
 }
