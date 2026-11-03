@@ -17,6 +17,6 @@ public class Obstacle : MonoBehaviour
             player.transform.position = Checkpoint.actualCheckpoint;
             Vector3 positionDelta = player.transform.position - previousPosition;
             CinemachineCore.OnTargetObjectWarped(player.transform, positionDelta);
-        }
+        }   
     }
 }

@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
+    private bool doubleJump;
 
     [Header("Coyote Time")]
     public float coyoteTime;
@@ -104,6 +105,7 @@ public class PlayerMovement : MonoBehaviour
         if (grounded)
         {
             coyoteTimeCounter = coyoteTime;
+            doubleJump = true;
         }
         else
         {
@@ -149,6 +151,11 @@ public class PlayerMovement : MonoBehaviour
             jumpBufferCounter = 0f;
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
+        }
+        if(Input.GetKeyDown(jumpKey) && doubleJump && !grounded && !grappling && (wallJumpScript == null || !wallJumpScript.IsActive))
+        {
+            doubleJump = false;
+            Jump();
         }
 
         slowFalling = !grappling && Input.GetKey(KeyCode.Space) && !grounded;
