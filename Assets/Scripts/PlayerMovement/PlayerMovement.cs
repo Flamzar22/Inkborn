@@ -154,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
         }
-        if(Input.GetKeyDown(jumpKey) && doubleJump && !grounded && !grappling && (wallJumpScript == null || !wallJumpScript.IsActive))
+        if(Input.GetKeyDown(jumpKey) && doubleJump && coyoteTimeCounter <= 0 && !grounded && !grappling && (wallJumpScript == null || !wallJumpScript.IsActive))
         {
             doubleJump = false;
             Jump();
