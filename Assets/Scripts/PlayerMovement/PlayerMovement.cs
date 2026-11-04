@@ -52,6 +52,8 @@ public class PlayerMovement : MonoBehaviour
     public GrapplinHook grapplingHook;
     public WallJumping wallJumpScript;
     public Transform orientation;
+    public AudioClip jumpSound;
+    public AudioSource audioSource;
 
     float horizontalInput;
     float verticalInput;
@@ -227,6 +229,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Jump()
     {
+        audioSource.PlayOneShot(jumpSound);
         exitingSlope = true;
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
