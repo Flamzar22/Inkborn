@@ -361,12 +361,16 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("IsRunning", false);
         }
+        else if (climbing)
+        {
+            animator.SetBool("IsRunning", false);
+        }
         else
         {
             animator.SetBool("IsRunning", true);
         }
 
-        if(climbing && rb.linearVelocity.y >= 0)
+        if(climbing && rb.linearVelocity.y > 0)
         {
             animator.SetBool("ClimbUp", true);
             animator.SetBool("ClimbDown", false);
@@ -375,6 +379,17 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("ClimbUp", false);
             animator.SetBool("ClimbDown", true);
+        }
+        else if (climbing && rb.linearVelocity.sqrMagnitude > 0)
+        {
+            animator.SetBool("ClimbUp", true);
+            animator.SetBool("ClimbDown", false);
+        }
+        else if(climbing && rb.linearVelocity == Vector3.zero)
+        {
+            animator.SetBool("ClimbUp", false);
+            animator.SetBool("ClimbDown", false);
+            animator.SetTrigger("Climb");
         }
         else
         {

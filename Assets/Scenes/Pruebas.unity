@@ -8652,7 +8652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4443593550675985157, guid: aa8b3005baf69894faa72274bcfcd346, type: 3}
       propertyPath: slideSpeed
-      value: -0.15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4443593550675985157, guid: aa8b3005baf69894faa72274bcfcd346, type: 3}
       propertyPath: wallStrafeSpeed

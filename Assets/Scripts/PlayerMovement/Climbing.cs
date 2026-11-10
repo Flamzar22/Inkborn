@@ -187,6 +187,7 @@ public class Climbing : MonoBehaviour
         if (Mathf.Abs(verticalInput) < 0.01f)
         {
             verticalSpeed = -slideSpeed;
+            rb.useGravity = false;
         }
 
         Vector3 velocity = Vector3.up * verticalSpeed + wallRight * -horizontalInput * wallStrafeSpeed;
