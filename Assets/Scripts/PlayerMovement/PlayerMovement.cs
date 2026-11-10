@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform orientation;
     public AudioClip jumpSound;
     public AudioSource audioSource;
+    private Animator animator;
 
     float horizontalInput;
     float verticalInput;
@@ -83,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
         
         if (wallJumpScript == null)
         {
@@ -101,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         StateHandler();
+        Animations();
 
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
 
@@ -144,6 +147,8 @@ public class PlayerMovement : MonoBehaviour
     }
     private void MyInput()
     {
+        if (state == MovementState.freeze) { return; }
+
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
@@ -164,11 +169,15 @@ public class PlayerMovement : MonoBehaviour
     }
     private void MovePlayer()
     {
+        if (climbing) {  return; }
+        if(state == MovementState.freeze) { return; }
         if (grappling) { return; }
         if (climbingScript.exitingWall) { return; }
         if (wallJumpScript != null && wallJumpScript.IsActive && !grounded){ return; }
         if (state == MovementState.dashing) { return; }
+
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
         if (OnSlope() && !exitingSlope)
         {
             rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 15f, ForceMode.Force);
@@ -229,6 +238,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Jump()
     {
+        animator.SetTrigger("Jump");
         audioSource.PlayOneShot(jumpSound);
         exitingSlope = true;
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
@@ -343,6 +353,34 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 GetSlopeMoveDirection()
     {
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
+    }
+
+    private void Animations()
+    {
+        if(horizontalInput == 0f && verticalInput == 0f && !climbing && grounded && !grappling && !dashing)
+        {
+            animator.SetBool("IsRunning", false);
+        }
+        else
+        {
+            animator.SetBool("IsRunning", true);
+        }
+
+        if(climbing && rb.linearVelocity.y >= 0)
+        {
+            animator.SetBool("ClimbUp", true);
+            animator.SetBool("ClimbDown", false);
+        }
+        else if (climbing && rb.linearVelocity.y < 0)
+        {
+            animator.SetBool("ClimbUp", false);
+            animator.SetBool("ClimbDown", true);
+        }
+        else
+        {
+            animator.SetBool("ClimbUp", false);
+            animator.SetBool("ClimbDown", false);
+        }
     }
 }
 

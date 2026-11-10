@@ -1,4 +1,5 @@
 using UnityEngine;
+using static PlayerMovement;
 
 public class ThirdPersonCam : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class ThirdPersonCam : MonoBehaviour
         {
             if (inputDir != Vector3.zero)
             {
+                if (pm.state == MovementState.freeze) { return; }
                 playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
             }
         }
