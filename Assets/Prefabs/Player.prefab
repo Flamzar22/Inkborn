@@ -62,7 +62,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -1.16, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.00001, z: 0.5}
+  m_LocalScale: {x: 0.7, y: 0.00001, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5028393281565593930}
@@ -8579,7 +8579,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 63
+  m_VersionIndex: 51
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -8797,7 +8797,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4079927
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -8893,6 +8893,7 @@ MonoBehaviour:
   jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0.4
+  doubleJump: 0
   coyoteTime: 0.15
   jumpBufferTime: 0.2
   jumpKey: 32
@@ -8900,10 +8901,16 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1024
+  whatIsJumpPlatform:
+    serializedVersion: 2
+    m_Bits: 2048
   grounded: 0
+  onJumpPlatform: 0
   maxSlopeAngle: 40
   slowFallGravity: 0.3
   maxFallSpeed: 3
+  slowPercentage: 30
+  fallingReduction: 0.3
   climbingScript: {fileID: 0}
   grapplingHook: {fileID: 0}
   wallJumpScript: {fileID: 0}
@@ -8915,6 +8922,7 @@ MonoBehaviour:
   climbing: 0
   grappling: 0
   freeze: 0
+  inHoney: 0
 --- !u!114 &717483132877384902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8929,14 +8937,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dashing
   orientation: {fileID: 8593956709231362602}
   playerCam: {fileID: 0}
-  dashForce: 20
+  dashForce: 50
   dashUpwardForce: 0
   dashDuration: 0.25
-  allowAllDirections: 1
-  disableGravity: 0
+  allowAllDirections: 0
+  disableGravity: 1
   resetVelocity: 1
   dashCd: 1.5
-  dashKey: 101
+  dashKey: 304
 --- !u!114 &4443593550675985157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8965,7 +8973,7 @@ MonoBehaviour:
   jumpKey: 32
   climbJumps: 1
   slideSpeed: 0
-  detectionLenght: 0.7
+  detectionLenght: 0.2
   sphereCastRadius: 0.25
   maxWallLookAngle: 90
   minWallNormalAngleChange: 5
@@ -8988,7 +8996,7 @@ MonoBehaviour:
   rope: {fileID: 4960614536793985989}
   leftHand: {fileID: 6375111573609913431}
   rightHand: {fileID: 2013454481710741084}
-  grappleKey: 102
+  grappleKey: 32
   releaseKey: 32
   ropeLength: 5
   reelSpeed: 8

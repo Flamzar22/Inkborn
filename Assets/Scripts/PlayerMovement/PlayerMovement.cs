@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    private bool doubleJump;
+    public bool doubleJump;
 
     [Header("Coyote Time")]
     public float coyoteTime;
@@ -391,7 +391,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsRunning", true);
         }
 
-        if(!grounded && !onJumpPlatform && !wallJumpScript.touchingLeftWall && !wallJumpScript.touchingRightWall)
+        if(!grounded && !onJumpPlatform && !wallJumpScript.touchingLeftWall && !wallJumpScript.touchingRightWall && !climbing)
         {
             animator.SetBool("Falling", true);
         }
