@@ -8,7 +8,7 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("PlayerObj"))
         {
             instance = this;
             actualCheckpoint = Checkpoint.instance.transform.position;
