@@ -49,6 +49,11 @@ public class PlayerMovement : MonoBehaviour
     public float slowFallGravity;
     public float maxFallSpeed;
 
+    [Header("Honey Obstacle")]
+    public float slowPercentage;
+    [Range(0f, 1f)]
+    public float fallingReduction;
+
     [Header("References")]
     public Climbing climbingScript;
     public GrapplinHook grapplingHook;
@@ -75,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
         grappling,
         wallJumping,
         slowFalling,
+        inHoney,
         air
     }
 
@@ -83,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
     public bool climbing;
     public bool grappling;
     public bool freeze;
+    public bool inHoney;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -216,6 +223,10 @@ public class PlayerMovement : MonoBehaviour
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, -maxFallSpeed, rb.linearVelocity.z);
                 }
             }
+            if (inHoney && rb.linearVelocity.y < 0 && !slowFalling)
+            {
+                rb.AddForce(Physics.gravity * (fallingReduction - 1f), ForceMode.Acceleration);
+            }
         }
     }
     private void SpeedControl()
@@ -239,13 +250,19 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    private float desiredJumpForce;
     private void Jump()
     {
+        desiredJumpForce = jumpForce;
+        if (inHoney)
+        {
+            desiredJumpForce -= desiredJumpForce * slowPercentage / 100;
+        }
         animator.SetTrigger("Jump");
         audioSource.PlayOneShot(jumpSound);
         exitingSlope = true;
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        rb.AddForce(transform.up * desiredJumpForce, ForceMode.Impulse);
     }
     private void ResetJump()
     {
@@ -300,6 +317,11 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.air;
 
             desiredMoveSpeed = walkSpeed;
+        }
+
+        if (inHoney)
+        {
+            desiredMoveSpeed -= desiredMoveSpeed * slowPercentage / 100f;
         }
 
         bool desiredMoveSpeedHasChanged = desiredMoveSpeed != lastDesiredMoveSpeed;

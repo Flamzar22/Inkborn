@@ -10,7 +10,7 @@ public class GrapplinHook : MonoBehaviour
     public Transform rightHand;
 
     [Header("Input")]
-    public KeyCode grappleKey = KeyCode.F;
+    public KeyCode grappleKey = KeyCode.Space;
     public KeyCode releaseKey = KeyCode.Space;
 
     [Header("Rope")]
@@ -41,6 +41,9 @@ public class GrapplinHook : MonoBehaviour
     private float swingVelocity;
     private float currentRopeLength;
 
+    private float canReleaseTime = 0.2f;
+    private float carReleaseTimer;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -61,12 +64,14 @@ public class GrapplinHook : MonoBehaviour
     }
     private void Update()
     {
+        carReleaseTimer -= Time.deltaTime;
+
         if(Input.GetKeyDown(grappleKey) && !isGrappling)
         {
             TryGrapple();
         }
 
-        if (isGrappling && Input.GetKeyDown(releaseKey))
+        if (isGrappling && Input.GetKeyDown(releaseKey) && carReleaseTimer <= 0f)
         {
             ReleaseGrapple();
         }
@@ -104,6 +109,7 @@ public class GrapplinHook : MonoBehaviour
         
         if(bestPoint == null) { return; }
 
+        carReleaseTimer = canReleaseTime;
         AttachToPoint(bestPoint);
     }
     private void AttachToPoint(GrapplePoint point)
