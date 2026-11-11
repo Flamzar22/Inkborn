@@ -20,8 +20,8 @@ public class WallJumping : MonoBehaviour
 
     private WallJumpZone activeZone;
 
-    private bool touchingLeftWall;
-    private bool touchingRightWall;
+    public bool touchingLeftWall;
+    public bool touchingRightWall;
 
     public bool IsActive => activeZone != null;
 
@@ -107,7 +107,7 @@ public class WallJumping : MonoBehaviour
             return;
         }
 
-        rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
+        rb.linearVelocity = new Vector3(0f, 0f, 0f);
 
         Vector3 jumpForce = Vector3.up * jumpUpForce + jumpDirection * jumpSideForce;
 

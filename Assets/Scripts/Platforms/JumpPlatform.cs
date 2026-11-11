@@ -36,7 +36,7 @@ public class JumpPlatform : MonoBehaviour
 
             rb.MovePosition(newPosition);
 
-            if (pm.grounded)
+            if (pm.onJumpPlatform)
             {
                 playerRb.MovePosition(playerRb.position + platformMovement);
             }
@@ -55,7 +55,7 @@ public class JumpPlatform : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        if (pm.grounded)
+        if (pm.onJumpPlatform)
         {
             ApplyForce();
         }

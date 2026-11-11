@@ -6,6 +6,8 @@ public class GrapplinHook : MonoBehaviour
     public PlayerMovement playerMovement;
     public Transform orientation;
     public LineRenderer rope;
+    public Transform leftHand;
+    public Transform rightHand;
 
     [Header("Input")]
     public KeyCode grappleKey = KeyCode.F;
@@ -53,7 +55,7 @@ public class GrapplinHook : MonoBehaviour
         }
         if(rope != null)
         {
-            rope.positionCount = 2;
+            rope.positionCount = 3;
             rope.enabled = false;
         }
     }
@@ -68,13 +70,15 @@ public class GrapplinHook : MonoBehaviour
         {
             ReleaseGrapple();
         }
+
+        if (!isGrappling) { return; }
+        UpdateRope();
     }
     private void FixedUpdate()
     {
         if (!isGrappling) { return; }
 
-        Swing();
-        UpdateRope();
+        Swing();        
     }
     private void TryGrapple()
     {
@@ -223,7 +227,8 @@ public class GrapplinHook : MonoBehaviour
         if(rope == null) return;
 
         rope.SetPosition(0, anchorPosition);
-        rope.SetPosition(1, transform.position);
+        rope.SetPosition(1, rightHand.position);
+        rope.SetPosition(2, leftHand.position);
     }
     private void ReleaseGrapple()
     {

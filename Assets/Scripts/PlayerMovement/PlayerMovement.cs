@@ -36,7 +36,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
+    public LayerMask whatIsJumpPlatform;
     public bool grounded;
+    public bool onJumpPlatform;
 
     [Header("Slope Handling")]
     public float maxSlopeAngle;
@@ -106,8 +108,9 @@ public class PlayerMovement : MonoBehaviour
         Animations();
 
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+        onJumpPlatform = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsJumpPlatform);
 
-        if (grounded)
+        if (grounded || onJumpPlatform)
         {
             coyoteTimeCounter = coyoteTime;
             doubleJump = true;
@@ -128,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
 
-        if (grounded && !dashing && !grappling && !climbing)
+        if (grounded && !dashing && !grappling && !climbing || onJumpPlatform && !dashing && !grappling && !climbing)
         {
             rb.linearDamping = groundDrag;
         }
@@ -187,7 +190,7 @@ public class PlayerMovement : MonoBehaviour
                 rb.AddForce(Vector3.down * 80f, ForceMode.Force);
             }
         }
-        else if (grounded)
+        else if (grounded || onJumpPlatform)
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
         }
@@ -287,7 +290,7 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.climbing;
             desiredMoveSpeed = climbSpeed;
         }
-        else if (grounded)
+        else if (grounded || onJumpPlatform)
         {
             state = MovementState.walking;
             desiredMoveSpeed = walkSpeed;
@@ -357,17 +360,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void Animations()
     {
-        if(horizontalInput == 0f && verticalInput == 0f && !climbing && grounded && !grappling && !dashing)
-        {
-            animator.SetBool("IsRunning", false);
-        }
-        else if (climbing)
+        if(horizontalInput == 0f && verticalInput == 0f && !climbing && grounded && !grappling && !dashing || climbing || wallJumpScript.touchingLeftWall || wallJumpScript.touchingRightWall)
         {
             animator.SetBool("IsRunning", false);
         }
         else
         {
             animator.SetBool("IsRunning", true);
+        }
+
+        if(!grounded && !onJumpPlatform && !wallJumpScript.touchingLeftWall && !wallJumpScript.touchingRightWall)
+        {
+            animator.SetBool("Falling", true);
+        }
+        else
+        {
+            animator.SetBool("Falling", false);
         }
 
         if(climbing && rb.linearVelocity.y > 0)
@@ -395,6 +403,25 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("ClimbUp", false);
             animator.SetBool("ClimbDown", false);
+        }
+
+        if (wallJumpScript.IsActive)
+        {
+            if(wallJumpScript.touchingLeftWall || wallJumpScript.touchingRightWall)
+            {
+                animator.SetBool("ClimbUp", false);
+                animator.SetBool("ClimbDown", false);
+                animator.SetTrigger("Climb");
+            }
+        }
+
+        if (grappling)
+        {
+            animator.SetBool("Grappling", true);
+        }
+        else
+        {
+            animator.SetBool("Grappling", false);
         }
     }
 }
