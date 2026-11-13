@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b84be830d31c141e9ab6c75eb11f0bf2
+guid: 6290604cbd4aa41c6bb8505a150138ab
 ModelImporter:
   serializedVersion: 24600
   internalIDToNameTable: []
@@ -8,12 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material.004
-    second: {fileID: 2100000, guid: b4a1d72355fe547f1b7ede598d70dde0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: llave1
-    second: {fileID: 2100000, guid: e314a763486644290ac7c171fdf85186, type: 2}
+    second: {fileID: 2100000, guid: 3dfbbf6dafa0a445e8a88511fa7f684a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -28,7 +23,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: materialbase
-    second: {fileID: 2100000, guid: ce63b65b09dbe4d05a344cb1f2128ecd, type: 2}
+    second: {fileID: 2100000, guid: c5bced0cc45624d10b24af2a1b0f2adb, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -57,11 +52,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Open
-      takeName: Scene
-      internalID: -623603649343465320
-      firstFrame: 1
-      lastFrame: 50
+      name: abrir
+      takeName: Armature|ArmatureAction
+      internalID: 4781951162920444690
+      firstFrame: 0
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -84,13 +79,13 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: close
-      takeName: Scene
-      internalID: -1609281748187839663
-      firstFrame: 60
-      lastFrame: 112
+      name: cerrar
+      takeName: Armature|ArmatureAction
+      internalID: -1246731831762816583
+      firstFrame: 30
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -113,7 +108,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -127,8 +122,8 @@ ModelImporter:
     importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
