@@ -49,7 +49,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void ReturnToMenuYesButton()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("MenuPrincipal");
     }
     public void ReturnToMenuNoButton()
     {
