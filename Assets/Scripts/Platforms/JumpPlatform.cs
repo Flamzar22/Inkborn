@@ -8,6 +8,7 @@ public class JumpPlatform : MonoBehaviour
     private PlayerMovement pm;
     private Rigidbody rb;
     public float impulseForce;
+    public Animator animator;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -19,13 +20,14 @@ public class JumpPlatform : MonoBehaviour
             playerRb = collision.gameObject.GetComponent<Rigidbody>();
             pm = collision.gameObject.GetComponentInParent<PlayerMovement>();
             isMoving = true;
+            animator.SetTrigger("Jump");
             StartCoroutine(MovePlatform());
         }
     }
     private IEnumerator MovePlatform()
     {
         Vector3 initialPosition = transform.position;
-        Vector3 desiredPosition = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+        Vector3 desiredPosition = new Vector3(transform.position.x, transform.position.y - 0.6f, transform.position.z);
         float velocidad = 2f;
 
         while (Vector3.Distance(rb.position, desiredPosition) > 0.001f)
