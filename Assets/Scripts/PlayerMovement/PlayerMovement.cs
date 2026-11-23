@@ -382,7 +382,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Animations()
     {
-        if(horizontalInput == 0f && verticalInput == 0f && !climbing && grounded && !grappling && !dashing || climbing || wallJumpScript.touchingLeftWall || wallJumpScript.touchingRightWall)
+        if(horizontalInput == 0f && verticalInput == 0f && !climbing && (grounded || onJumpPlatform) && !grappling && !dashing || climbing || wallJumpScript.touchingLeftWall || wallJumpScript.touchingRightWall)
         {
             animator.SetBool("IsRunning", false);
         }

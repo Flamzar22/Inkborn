@@ -5,28 +5,25 @@ public class FragilePlatform : MonoBehaviour
 {
     public float respawnTime;
     public float despawnTime;
-    private MeshRenderer mr;
     private MeshCollider mc;
+    public Animator animator;
     private void Start()
     {
-        mr = GetComponent<MeshRenderer>();
         mc = GetComponent<MeshCollider>();
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y < -0.5f)
         {
             StartCoroutine(StartBreaking());
         }
     }
     private IEnumerator StartBreaking()
     {
-        //Start animation
+        animator.SetTrigger("Break");
         yield return new WaitForSeconds(despawnTime);
         mc.enabled = false;
-        mr.enabled = false;
         yield return new WaitForSeconds(respawnTime);
         mc.enabled = true;
-        mr.enabled = true;
     }
 }
