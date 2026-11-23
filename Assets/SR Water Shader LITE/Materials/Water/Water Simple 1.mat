@@ -20,7 +20,7 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _Metallic
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -70,17 +70,17 @@ Material:
     - _Refraction_Speed: 0.03
     - _Refraction_Strength: 0.62
     - _Smoothness: 1
-    - _Water_Depth: 7.29
+    - _Water_Depth: 23.44
     m_Colors:
-    - _Deep_Water: {r: 0.014247027, g: 0.30401763, b: 0.32830188, a: 0.43137255}
+    - _Deep_Water: {r: 0.20570305, g: 0.6428391, b: 0.6528301, a: 0.43137255}
     - _Foarm_Color: {r: 0, g: 0.9714761, b: 1, a: 0.5294118}
     - _Foarm_Speed_XY: {r: 1, g: 1, b: 0, a: 0}
     - _Mask_TIle: {r: 1, g: 1, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Pattern_Color: {r: 0, g: 0, b: 0, a: 0.9647059}
     - _Refraction_Speed_XY: {r: 0.1, g: 0.1, b: 0, a: 0}
-    - _Shallow_Water: {r: 0, g: 0.25283018, b: 0.23238069, a: 0.16862746}
-    - _Speed: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Shallow_Water: {r: 0.12339616, g: 0.4113207, b: 0.38882658, a: 0.16862746}
+    - _Speed: {r: 3.84, g: 3.24, b: 0, a: 0}
     - _Tiling: {r: 8, g: 8, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
