@@ -8579,7 +8579,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 51
+  m_VersionIndex: 66
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -8884,13 +8884,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6402096ce76d054ba2b9ef6415c0937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  walkSpeed: 7
-  climbSpeed: 3
+  walkSpeed: 10
+  climbSpeed: 5
   dashSpeed: 20
   dashSpeedChangeFactor: 50
   groundDrag: 5
   climbDrag: 4
-  jumpForce: 12
+  jumpForce: 15
   jumpCooldown: 0.25
   airMultiplier: 0.4
   doubleJump: 0
@@ -9266,19 +9266,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5713967932282191958, guid: 2bff95d7919aed14ea52ddc62403d8e7, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9933584
+      value: 0.99335855
       objectReference: {fileID: 0}
     - target: {fileID: 5713967932282191958, guid: 2bff95d7919aed14ea52ddc62403d8e7, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.114493586
+      value: 0.11449361
       objectReference: {fileID: 0}
     - target: {fileID: 5713967932282191958, guid: 2bff95d7919aed14ea52ddc62403d8e7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.011347627
+      value: -0.011327155
       objectReference: {fileID: 0}
     - target: {fileID: 5713967932282191958, guid: 2bff95d7919aed14ea52ddc62403d8e7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0013079172
+      value: 0.0013055574
       objectReference: {fileID: 0}
     - target: {fileID: 5713967932282191958, guid: 2bff95d7919aed14ea52ddc62403d8e7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
