@@ -175,6 +175,11 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
 
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            transform.position = Checkpoint.actualCheckpoint;
+        }
+
         slowFalling = !grappling && Input.GetKey(KeyCode.Space) && !grounded;
     }
     private void MovePlayer()
