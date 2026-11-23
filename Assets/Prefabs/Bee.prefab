@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db0901b7963c8ee4caa3474376a31626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bee
-  moveSpeed: 5
-  moveDistance: 10
+  moveSpeed: 15
+  moveDistance: 30
   rotationSpeed: 300
 --- !u!114 &6336970618093174488
 MonoBehaviour:
