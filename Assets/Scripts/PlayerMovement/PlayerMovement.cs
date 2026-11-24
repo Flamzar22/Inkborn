@@ -60,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
     public WallJumping wallJumpScript;
     public Transform orientation;
     public AudioClip jumpSound;
+    public AudioClip dashSound;
+    public AudioClip deathSound;
     public AudioSource audioSource;
     private Animator animator;
 
@@ -90,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
     public bool grappling;
     public bool freeze;
     public bool inHoney;
+    public bool slowfallingUnlocked = false;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -180,7 +183,7 @@ public class PlayerMovement : MonoBehaviour
             transform.position = Checkpoint.actualCheckpoint;
         }
 
-        slowFalling = !grappling && Input.GetKey(KeyCode.Space) && !grounded;
+        slowFalling = !grappling && Input.GetKey(KeyCode.Space) && !grounded && slowfallingUnlocked;
     }
     private void MovePlayer()
     {

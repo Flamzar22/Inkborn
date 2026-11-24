@@ -25,7 +25,7 @@ public class MainMenu : MonoBehaviour
     }
     public void LevelOneButton()
     {
-        SceneManager.LoadScene("Pruebas");
+        SceneManager.LoadScene("Level1");
     }
     public void BackButton()
     {

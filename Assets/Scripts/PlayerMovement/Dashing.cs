@@ -1,5 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Dashing : MonoBehaviour
 {
@@ -46,6 +47,8 @@ public class Dashing : MonoBehaviour
         if (dashCdTimer > 0) { return; }
         else { dashCdTimer = dashCd; }
         pm.dashing = true;
+
+        pm.audioSource.PlayOneShot(pm.dashSound);
 
         Vector3 direction = GetDirection(orientation);
 

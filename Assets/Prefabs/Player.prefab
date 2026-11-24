@@ -8579,7 +8579,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 66
+  m_VersionIndex: 75
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -8915,7 +8915,9 @@ MonoBehaviour:
   grapplingHook: {fileID: 0}
   wallJumpScript: {fileID: 0}
   orientation: {fileID: 8593956709231362602}
-  jumpSound: {fileID: 8300000, guid: 67b372ef7a25dd549b53f7d71bd34a3f, type: 3}
+  jumpSound: {fileID: 8300000, guid: b583783e7b7cfff4589cdc9004cf5c2a, type: 3}
+  dashSound: {fileID: 8300000, guid: 35781dbf070ef5444a48628d5ba3d41f, type: 3}
+  deathSound: {fileID: 8300000, guid: 64d55d23ff31ffb469ed819269b787f0, type: 3}
   audioSource: {fileID: 3406405483328255540}
   state: 0
   dashing: 0
@@ -8923,6 +8925,7 @@ MonoBehaviour:
   grappling: 0
   freeze: 0
   inHoney: 0
+  slowfallingUnlocked: 0
 --- !u!114 &717483132877384902
 MonoBehaviour:
   m_ObjectHideFlags: 0

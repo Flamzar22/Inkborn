@@ -24,6 +24,7 @@ public class Obstacle : MonoBehaviour
         animator = player.GetComponentInChildren<Animator>();
         pm = player.GetComponent<PlayerMovement>();
         animator.SetTrigger("Die");
+        pm.audioSource.PlayOneShot(pm.deathSound);
         player.GetComponentInChildren<CapsuleCollider>().enabled = false;
         pm.freeze = true;
         yield return new WaitForSeconds(2f);
