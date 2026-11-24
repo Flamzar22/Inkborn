@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
     public CinemachineCamera bookCam;
     void Start()
     {
+        Time.timeScale = 1.0f;
         levelSelector.SetActive(false);
     }
     public void StartButton()
